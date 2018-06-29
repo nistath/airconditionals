@@ -1,0 +1,11 @@
+@mixin blurred {
+    filter: blur(3px);
+}
+
+@mixin veryBlurred {
+    filter: blur(6px);
+}
+
+@mixin color_inverted {
+    filter: invert(100%);
+}

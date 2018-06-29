@@ -1,0 +1,12 @@
+@mixin bold {
+    font-weight: bolder;
+}
+
+@mixin light {
+    font-weight: lighter;
+}
+
+@mixin italics {
+    font-style: italic;
+    font-weight: lighter;
+}

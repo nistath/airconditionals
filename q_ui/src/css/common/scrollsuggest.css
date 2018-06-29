@@ -1,0 +1,39 @@
+@keyframes scroll {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.scroll_suggest_container .scroll_suggest {
+  display: block;
+  margin: 0 auto;
+  width: 23px;
+  height: 40px;
+  border-radius: 13px;
+  border-width: 2px;
+  border-style: solid;
+  position: absolute;
+  left: 50%;
+  margin-left: -14px;
+}
+.scroll_suggest_container .scroll_suggest span {
+  display: block;
+  margin: 6px auto;
+  width: 3px;
+  height: 7px;
+  border-radius: 100%;
+  background: red;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: scroll;
+}
+.scroll_suggest_container .scroll_suggest.clickable {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=scrollsuggest.css.map */

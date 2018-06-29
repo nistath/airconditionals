@@ -1,0 +1,30 @@
+@mixin centerchild {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin centerchild-v {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@mixin centerabs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin centerabs-v {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin centerabs-h {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

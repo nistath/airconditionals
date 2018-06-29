@@ -1,0 +1,41 @@
+@import "screens";
+@import "fonts";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size:20vmin;
+}
+
+h2 {
+    font-family: 'Lato', sans-serif;
+    font-size:12vmin;
+}
+
+h3 {
+    font-family: 'Lato', sans-serif;
+    font-size:9vmin;
+}
+
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 5vmin;
+}
+
+h5 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.5vmin;
+}
+
+h6 {
+    font-family: 'Inconsolata', monospace;
+    font-size: 1.5vmin;
+}

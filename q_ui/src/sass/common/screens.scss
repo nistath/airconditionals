@@ -1,0 +1,47 @@
+@mixin tallScreen {
+    @media only screen and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin wideScreen {
+    @media only screen and (orientation: landscape) {
+        @content;
+    }
+}
+
+@mixin veryTallScreen {
+    @media only screen and (max-aspect-ratio: 3/4) {
+        @content;
+    }
+}
+
+@mixin veryTallScreen-inverse {
+    @media only screen and (min-aspect-ratio: 3/4) {
+        @content;
+    }
+}
+
+@mixin veryWideScreen {
+    @media only screen and (min-aspect-ratio: 16/9) {
+        @content;
+    }
+}
+
+@mixin veryWideScreen-inverse {
+    @media only screen and (max-aspect-ratio: 16/9) {
+        @content;
+    }
+}
+
+@mixin quiteWideScreen{
+    @media only screen and (min-aspect-ratio: 10/9) {
+        @content;
+    }
+}
+
+@mixin quiteWideScreen-inverse{
+    @media only screen and (max-aspect-ratio: 10/9) {
+        @content;
+    }
+}
