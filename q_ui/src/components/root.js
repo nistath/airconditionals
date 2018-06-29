@@ -95,6 +95,7 @@ export default class Root extends Component {
         }
         this._getResultData = this._getResultData.bind(this);
         this._onSelect = this._onSelect.bind(this);
+        this._demoCounters = this._demoCounters.bind(this);
     }
 
     _getResultData() {
@@ -111,6 +112,13 @@ export default class Root extends Component {
         });
     }
 
+    _demoCounters() {
+        this.setState({
+            active:true
+        })
+        console.log("test");
+    }
+
     render() {
         return (
             <main>
@@ -121,7 +129,7 @@ export default class Root extends Component {
                     </div>
                 </div>
                 <div className="result_container">
-                    <ResultBox active={false} data={this._getResultData()}/>
+                    <ResultBox active={false} data={this._getResultData()} onClick={this._demoCounters}/>
                 </div>
             </main>
         )

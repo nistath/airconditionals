@@ -3,7 +3,12 @@
 
 body {
     overflow-x: hidden;
+    background-color:#0f0027;
 }
+
+$panelColor: #353585;
+$blobColor: #9faef0;
+$rowColor: #3f3f92;
 
 .root, main {
     display: inline-block;
@@ -26,9 +31,11 @@ nav {
         .control_panel {
             $rows: 5;
             float:left;
-            width:61.5%;
+            width:60%;
+            margin-right:1.5%;
             height:100%;
-            background-color:blue;
+            background-color:$panelColor;
+            color:white;
             .row {
                 position:relative;
                 width:80%;
@@ -39,8 +46,9 @@ nav {
                 }
                 &.content {
                     height: calc((100% / #{2 * $rows + 1}) * 1.6);
-                    background-color:red;
+                    background-color:$rowColor;
                     display:table;
+                    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                     &#row1 {
                         @include centerchild-v;
                         .row__int {
@@ -63,6 +71,10 @@ nav {
                     &#row5 {
                         font-size:3em;
                         @include centerchild;
+                        &:hover {
+                            background-color:red;
+                            @include clickable;
+                        }
                     }
                     &:first-child, &:last-child {
                         &::before {
@@ -76,35 +88,39 @@ nav {
                         left: calc(-9% - 2px);
                         top: 60%;
                         height:100%;
-                        background-color:yellow;
+                        background-color:$blobColor;
                         position:absolute;
                     }
                     .circle {
                         width:6vmin;
                         height:6vmin;
-                        background-color:black;
+                        background-color:$blobColor;
                         position:absolute;
                         left: calc(-9% - 2px - 3vmin);
                         border-radius: 50%;
                         @include centerabs-v;
                     }
                     .tag {
-                        background-color:white;
+                        background-color:$rowColor;
+                        padding:1%;
+                        font-family:monospace;
                         width: max-content;
                         position:absolute;
-                        top:-1.1em;
+                        top:-1.4em;
                     }
                     .info_box{
                         display:table-cell;
                         height:100%;
-                        background-color:rgb(0, 218, 0);
+                        
                         p {
                             width:100%;
                             text-align: center;
+                            
                             &.data {
                                 font-size:2em;
                                 height:60%;
                                 padding-top:5%;
+                                
                             }
                             &.title {
                                 height:20%;
@@ -117,7 +133,7 @@ nav {
                             height:60%;
                             padding:0 5%;
                             width:50%;
-                            margin:10% auto;
+                            margin:7% auto;
                             background-color:white;
                         }
                     }
@@ -128,9 +144,32 @@ nav {
             float:right;
             width:38.5%;
             height:100%;
-            background-color:orange;
+            background-color:$panelColor;
+            color:white;
             .gauge_container{
-                @include centerchild;
+                height:33.33%;
+                position:relative;
+                svg {
+                    text{
+                        fill:white !important;
+                     }
+                }
+                &#ac, &#hum {
+                    @include centerchild;
+                }
+                &#light {
+                    svg {
+                        float:left;
+                    }
+                    @include centerchild-v;
+                    margin-left:5%;
+                    .blinds {
+                        right:10%;
+                        @include centerabs-v;
+                        font-size:2em;
+                        width:max-content;
+                    }
+                }
             }
         }
     }
@@ -145,16 +184,20 @@ nav {
         width:calc(100% - 10vmin);
         height:80%;
         margin-bottom:1%;
-        background-color:yellow;
+        background-color:$panelColor;
         @include centerchild;
         .result_display {
-            width:30%;
-            height:90%;
-            margin: 1%;
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            margin:30% 5%;
+            width:10%;
+            height:40%;
             float:left;
-            background-color:red;
+            color:white;
+            background-color:rgb(114, 12, 12);
+            transition: background-color 1750ms ease-out;
             &.complete {
-                background-color:green;
+                color:white;
+                background-color:rgb(20, 114, 12);
             }
             @include centerchild;
             .counter {
