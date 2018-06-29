@@ -30,25 +30,10 @@ nav {
             height:100%;
             background-color:blue;
             .row {
-                &:first-child, &:last-child {
-                    &::before {
-                        display:none;
-                    }
-                }
                 position:relative;
                 width:80%;
                 margin-right:5%;
                 float:right;
-                &::before {
-                    content:"";
-                    display:block;
-                    width:2px;
-                    left: calc(-9% - 2px);
-                    top: 60%;
-                    height:100%;
-                    background-color:yellow;
-                    position:absolute;
-                }
                 &.gap {
                     height: calc((100% / #{2 * $rows + 1}) / 2);
                 }
@@ -75,6 +60,25 @@ nav {
                             }
                         }
                     }
+                    &#row5 {
+                        font-size:3em;
+                        @include centerchild;
+                    }
+                    &:first-child, &:last-child {
+                        &::before {
+                            display:none;
+                        }
+                    }
+                    &::before {
+                        content:"";
+                        display:block;
+                        width:2px;
+                        left: calc(-9% - 2px);
+                        top: 60%;
+                        height:100%;
+                        background-color:yellow;
+                        position:absolute;
+                    }
                     .circle {
                         width:6vmin;
                         height:6vmin;
@@ -93,18 +97,28 @@ nav {
                     .info_box{
                         display:table-cell;
                         height:100%;
-                        background-color:white;
+                        background-color:rgb(0, 218, 0);
                         p {
                             width:100%;
                             text-align: center;
                             &.data {
-                                font-size:2.5em;
+                                font-size:2em;
                                 height:60%;
                                 padding-top:5%;
                             }
                             &.title {
                                 height:20%;
                             }
+                            float:right;
+                        }
+                        .data_in {
+                            display:block;
+                            font-size:2em;
+                            height:60%;
+                            padding:0 5%;
+                            width:50%;
+                            margin:10% auto;
+                            background-color:white;
                         }
                     }
                 }
@@ -115,6 +129,9 @@ nav {
             width:38.5%;
             height:100%;
             background-color:orange;
+            .gauge_container{
+                @include centerchild;
+            }
         }
     }
 

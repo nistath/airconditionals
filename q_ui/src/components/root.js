@@ -22,6 +22,13 @@ let sampleResultData = {
     }
 }
 
+let sampleSettings = {
+    ac:50,
+    humidity:20,
+    light:60,
+    blinds_open:true
+}
+
 let inactiveResultData = {
     isReal: false,
     naive : {
@@ -63,18 +70,18 @@ let scenarios= [
         name: "Sc2",
         desc: "Description example 2",
         external : {
-            temperature: 30,
-            humidity:30,
-            light:50,
+            temperature: 20,
+            humidity:60,
+            light:30,
             forecast :{
 
             }
         },
         internal : {
-            temperature: 29,
-            humidity: 50,
-            light:10,
-            population: 2
+            temperature: 26,
+            humidity: 10,
+            light:70,
+            population: 4
         }
     },
 ]
@@ -110,7 +117,7 @@ export default class Root extends Component {
                 <div className="panel_container">
                     <div className="panel_container__int">
                         <ControlPanel onSelect={this._onSelect} scenarios={scenarios} currentScenario={this.state.currentScenario}/>
-                        <SettingsPanel/>
+                        <SettingsPanel settings={sampleSettings}/>
                     </div>
                 </div>
                 <div className="result_container">

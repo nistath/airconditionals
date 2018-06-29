@@ -122,19 +122,6 @@ nav {
   margin-right: 5%;
   float: right;
 }
-.panel_container__int .control_panel .row:first-child::before, .panel_container__int .control_panel .row:last-child::before {
-  display: none;
-}
-.panel_container__int .control_panel .row::before {
-  content: "";
-  display: block;
-  width: 2px;
-  left: calc(-9% - 2px);
-  top: 60%;
-  height: 100%;
-  background-color: yellow;
-  position: absolute;
-}
 .panel_container__int .control_panel .row.gap {
   height: calc((100% / 11) / 2);
 }
@@ -166,6 +153,25 @@ nav {
 .panel_container__int .control_panel .row.content#row1 .row__int .scenario_info p {
   padding: 0;
 }
+.panel_container__int .control_panel .row.content#row5 {
+  font-size: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.panel_container__int .control_panel .row.content:first-child::before, .panel_container__int .control_panel .row.content:last-child::before {
+  display: none;
+}
+.panel_container__int .control_panel .row.content::before {
+  content: "";
+  display: block;
+  width: 2px;
+  left: calc(-9% - 2px);
+  top: 60%;
+  height: 100%;
+  background-color: yellow;
+  position: absolute;
+}
 .panel_container__int .control_panel .row.content .circle {
   width: 6vmin;
   height: 6vmin;
@@ -186,25 +192,40 @@ nav {
 .panel_container__int .control_panel .row.content .info_box {
   display: table-cell;
   height: 100%;
-  background-color: white;
+  background-color: #00da00;
 }
 .panel_container__int .control_panel .row.content .info_box p {
   width: 100%;
   text-align: center;
+  float: right;
 }
 .panel_container__int .control_panel .row.content .info_box p.data {
-  font-size: 2.5em;
+  font-size: 2em;
   height: 60%;
   padding-top: 5%;
 }
 .panel_container__int .control_panel .row.content .info_box p.title {
   height: 20%;
 }
+.panel_container__int .control_panel .row.content .info_box .data_in {
+  display: block;
+  font-size: 2em;
+  height: 60%;
+  padding: 0 5%;
+  width: 50%;
+  margin: 10% auto;
+  background-color: white;
+}
 .panel_container__int .settings_panel {
   float: right;
   width: 38.5%;
   height: 100%;
   background-color: orange;
+}
+.panel_container__int .settings_panel .gauge_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .result_container {
