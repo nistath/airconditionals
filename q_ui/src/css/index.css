@@ -89,6 +89,17 @@ body {
   background-color: #0f0027;
 }
 
+@keyframes blink {
+  0% {
+    background-color: #353585;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: #353585;
+  }
+}
 .root, main {
   display: inline-block;
   width: 100%;
@@ -162,9 +173,8 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.panel_container__int .control_panel .row.content#row5:hover {
-  background-color: red;
+  animation: blink 2.5s;
+  animation-iteration-count: infinite;
   cursor: pointer;
 }
 .panel_container__int .control_panel .row.content:first-child::before, .panel_container__int .control_panel .row.content:last-child::before {

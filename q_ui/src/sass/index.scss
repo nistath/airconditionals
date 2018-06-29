@@ -10,6 +10,18 @@ $panelColor: #353585;
 $blobColor: #9faef0;
 $rowColor: #3f3f92;
 
+@keyframes blink {
+    0% { 
+        background-color:$panelColor;
+    }
+    50% {
+        background-color:red;
+    }
+    100% {
+        background-color:$panelColor;
+    }
+}
+
 .root, main {
     display: inline-block;
     width:100%;
@@ -71,9 +83,11 @@ nav {
                     &#row5 {
                         font-size:3em;
                         @include centerchild;
+                        animation: blink 2.5s;
+                        animation-iteration-count: infinite;
+                        @include clickable;
                         &:hover {
-                            background-color:red;
-                            @include clickable;
+
                         }
                     }
                     &:first-child, &:last-child {
