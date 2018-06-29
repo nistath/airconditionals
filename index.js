@@ -1,12 +1,36 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const api = require('./Routes/api');
+'use strict';
 
-const app = express();
-const router = express.Router();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
+var fs        = require('fs');
+var path      = require('path');
+var Sequelize = require('sequelize');
+var basename  = path.basename(__filename);
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/../config/config.json')[env];
+var db        = {};
 
-app.use('/api',api);
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
-app.listen(3000,()=>{console.log('Server listening on port 3000')});
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+  })
+  .forEach(file => {
+    var model = sequelize['import'](path.join(__dirname, file));
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;
