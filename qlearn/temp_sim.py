@@ -8,10 +8,14 @@ from mdp10 import MDP, TabularQ, NNQ, value_iteration, Q_learn, Q_learn_batch, g
 
 # OMEGALUL
 # etmp -> tttmp
+
+
 def bound(val, btm, top):
     return min(top, max(btm, val))
 
+
 minT, maxT = 10, 40
+
 
 class TempSim(MDP):
     def __init__(self, start=(20, 25, 30)):
@@ -41,7 +45,7 @@ class TempSim(MDP):
         #     dist.delta_dist(((int(self.n / 2), 0), (0, 1), 0, 0))
 
     def state2vec(self, s):
-        if state == 'over':
+        if s == 'over':
             ret = np.zeros((1, 4))
             ret[0][-1] = 1
             return ret
@@ -53,7 +57,7 @@ class TempSim(MDP):
         return state == 'over'
 
     def reward_fn(self, s, a):
-        print(s)
+        print(s, a)
         if s == 'over':
             return 0
 
@@ -93,7 +97,6 @@ def test_learn_play(d=6, num_layers=2, num_units=100,
             scores.append((iter, evaluate(game, num_episodes, episode_length,
                                           lambda s: greedy(q, s))[0]))
             print('score', scores[-1])
-
 
     game = TempSim()
     if tabular:
