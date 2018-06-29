@@ -24,10 +24,91 @@ nav {
         width:calc(100% - 10vmin);
         height:95%;
         .control_panel {
+            $rows: 5;
             float:left;
             width:61.5%;
             height:100%;
             background-color:blue;
+            .row {
+                &:first-child, &:last-child {
+                    &::before {
+                        display:none;
+                    }
+                }
+                position:relative;
+                width:80%;
+                margin-right:5%;
+                float:right;
+                &::before {
+                    content:"";
+                    display:block;
+                    width:2px;
+                    left: calc(-9% - 2px);
+                    top: 60%;
+                    height:100%;
+                    background-color:yellow;
+                    position:absolute;
+                }
+                &.gap {
+                    height: calc((100% / #{2 * $rows + 1}) / 2);
+                }
+                &.content {
+                    height: calc((100% / #{2 * $rows + 1}) * 1.6);
+                    background-color:red;
+                    display:table;
+                    &#row1 {
+                        @include centerchild-v;
+                        .row__int {
+                            width:100%;
+                            .Dropdown-root {
+                                width:40%;
+                                float:left;
+                                margin:0 5%;
+                            }
+                            .scenario_info {
+                                width:50%;
+                                float:right;
+                                @include centerchild;
+                                p {
+                                    padding:0;
+                                }
+                            }
+                        }
+                    }
+                    .circle {
+                        width:6vmin;
+                        height:6vmin;
+                        background-color:black;
+                        position:absolute;
+                        left: calc(-9% - 2px - 3vmin);
+                        border-radius: 50%;
+                        @include centerabs-v;
+                    }
+                    .tag {
+                        background-color:white;
+                        width: max-content;
+                        position:absolute;
+                        top:-1.1em;
+                    }
+                    .info_box{
+                        display:table-cell;
+                        height:100%;
+                        background-color:white;
+                        p {
+                            width:100%;
+                            text-align: center;
+                            &.data {
+                                font-size:2.5em;
+                                height:60%;
+                                padding-top:5%;
+                            }
+                            &.title {
+                                height:20%;
+                            }
+                        }
+                    }
+                }
+            }
         }
         .settings_panel {
             float:right;
@@ -48,5 +129,20 @@ nav {
         height:80%;
         margin-bottom:1%;
         background-color:yellow;
+        @include centerchild;
+        .result_display {
+            width:30%;
+            height:90%;
+            margin: 1%;
+            float:left;
+            background-color:red;
+            &.complete {
+                background-color:green;
+            }
+            @include centerchild;
+            .counter {
+                font-size:1.5em;
+            }
+        }
     }
 }

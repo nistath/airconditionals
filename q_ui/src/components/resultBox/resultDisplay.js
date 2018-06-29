@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+
 import CountUp from "react-countup";
 import classnames from "classnames";
 
@@ -17,10 +17,10 @@ export default class ResultDisplay extends Component {
     }
     render() {
         let classNames = classnames("result_display", {
-            "complete":this.state.complete
+            "complete":this.props.data.isReal && this.state.complete
         });
         return (
-            <div className="result_display" id={this.props.id}>
+            <div className={classNames} id={this.props.id}>
                 <CountUp className="counter"
                 start = {0}
                 end = {this.props.data.value}

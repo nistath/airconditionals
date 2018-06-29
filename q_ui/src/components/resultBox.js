@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+
 import ResultDisplay from "./resultBox/resultDisplay";
 
 export default class ResultBox extends Component {

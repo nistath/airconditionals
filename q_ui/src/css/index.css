@@ -116,6 +116,90 @@ nav {
   height: 100%;
   background-color: blue;
 }
+.panel_container__int .control_panel .row {
+  position: relative;
+  width: 80%;
+  margin-right: 5%;
+  float: right;
+}
+.panel_container__int .control_panel .row:first-child::before, .panel_container__int .control_panel .row:last-child::before {
+  display: none;
+}
+.panel_container__int .control_panel .row::before {
+  content: "";
+  display: block;
+  width: 2px;
+  left: calc(-9% - 2px);
+  top: 60%;
+  height: 100%;
+  background-color: yellow;
+  position: absolute;
+}
+.panel_container__int .control_panel .row.gap {
+  height: calc((100% / 11) / 2);
+}
+.panel_container__int .control_panel .row.content {
+  height: calc((100% / 11) * 1.6);
+  background-color: red;
+  display: table;
+}
+.panel_container__int .control_panel .row.content#row1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.panel_container__int .control_panel .row.content#row1 .row__int {
+  width: 100%;
+}
+.panel_container__int .control_panel .row.content#row1 .row__int .Dropdown-root {
+  width: 40%;
+  float: left;
+  margin: 0 5%;
+}
+.panel_container__int .control_panel .row.content#row1 .row__int .scenario_info {
+  width: 50%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.panel_container__int .control_panel .row.content#row1 .row__int .scenario_info p {
+  padding: 0;
+}
+.panel_container__int .control_panel .row.content .circle {
+  width: 6vmin;
+  height: 6vmin;
+  background-color: black;
+  position: absolute;
+  left: calc(-9% - 2px - 3vmin);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.panel_container__int .control_panel .row.content .tag {
+  background-color: white;
+  width: max-content;
+  position: absolute;
+  top: -1.1em;
+}
+.panel_container__int .control_panel .row.content .info_box {
+  display: table-cell;
+  height: 100%;
+  background-color: white;
+}
+.panel_container__int .control_panel .row.content .info_box p {
+  width: 100%;
+  text-align: center;
+}
+.panel_container__int .control_panel .row.content .info_box p.data {
+  font-size: 2.5em;
+  height: 60%;
+  padding-top: 5%;
+}
+.panel_container__int .control_panel .row.content .info_box p.title {
+  height: 20%;
+}
 .panel_container__int .settings_panel {
   float: right;
   width: 38.5%;
@@ -135,6 +219,25 @@ nav {
   height: 80%;
   margin-bottom: 1%;
   background-color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.result_container .result_box .result_display {
+  width: 30%;
+  height: 90%;
+  margin: 1%;
+  float: left;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.result_container .result_box .result_display.complete {
+  background-color: green;
+}
+.result_container .result_box .result_display .counter {
+  font-size: 1.5em;
 }
 
 /*# sourceMappingURL=index.css.map */
