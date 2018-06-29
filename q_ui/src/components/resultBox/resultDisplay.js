@@ -17,8 +17,9 @@ export default class ResultDisplay extends Component {
     }
     render() {
         let classNames = classnames("result_display", {
-            "complete":this.props.data.isReal && this.state.complete
+            "complete":this.props.isReal
         });
+        console.log(this.props.data);
         return (
             <div className={classNames} id={this.props.id}>
                 <CountUp className="counter"
