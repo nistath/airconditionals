@@ -1,35 +1,41 @@
-import pdb
 import numpy as np
 import matplotlib.pyplot as plt
 import dist
 import util
-import pickle
 from mdp10 import MDP, TabularQ, NNQ, value_iteration, Q_learn, Q_learn_batch, greedy, sim_episode, evaluate
 
 # OMEGALUL
-# etmp -> tttmp
+# ttmp -> tactmp
 
 
 def bound(val, btm, top):
     return min(top, max(btm, val))
 
 
-minT, maxT = 10, 40
+minT, maxT = 19, 31
+etmp = 36
+
+u = 1
+
+minT *= u
+maxT *= u
+etmp *= u
 
 
 class TempSim(MDP):
-    def __init__(self, start=(20, 25, 30)):
+    def __init__(self, start=(20*u, 25*u, 30*u, False)):
         self.q = None
-        self.discount_factor = 0.1
+        self.discount_factor = 0.99
 
         # +1 so that range is inclusive
         self.states = [
-            (itmp, etmp, ttmp)
+            (itmp, ttmp, actmp, acst)
             for itmp in range(minT, maxT + 1)
-            for etmp in range(minT, maxT + 1)
             for ttmp in range(minT, maxT + 1)
+            for actmp in range(minT, maxT + 1)
+            for acst in (True, False)
         ]
-        self.states.append('over')
+        # self.states.append('over')
 
         self.actions = [
             +1,
@@ -45,42 +51,61 @@ class TempSim(MDP):
         #     dist.delta_dist(((int(self.n / 2), 0), (0, 1), 0, 0))
 
     def state2vec(self, s):
-        if s == 'over':
-            ret = np.zeros((1, 4))
-            ret[0][-1] = 1
-            return ret
-
-        (itmp, etmp, ttmp) = s
-        return np.array([[itmp, etmp, ttmp, 0]])
+        (itmp, ttmp, actmp, acst) = s
+        return np.array([[itmp, ttmp, actmp, acst]])
 
     def terminal(self, s):
-        return s == 'over'
+        return False
 
     def reward_fn(self, s, a):
-        # print(s, a)
-        if s == 'over':
-            return 0
+        (itmp, ttmp, actmp, acst) = s
 
-        (itmp, etmp, ttmp) = s
-        return max(0.1, 100 - (itmp - etmp) ** 2)
+        delta = (itmp - ttmp) / u
+
+        reward = - delta ** 2
+        if acst:
+            # cooling is expensive
+            if etmp > itmp and actmp < itmp:
+                reward *= 1.3
+
+            # heating is not as expensive
+            if etmp < itmp and actmp > itmp:
+                reward *= 1.1
+        elif reward > -4:
+            reward += 10
+        else:
+            reward /= 1.2
+
+        print(s, a, reward)
+        return reward
 
     def transition_model(self, s, a):
-        if s == 'over':
-            return dist.delta_dist('over')
-
         # Current state
-        (itmp, etmp, ttmp) = s
+        (itmp, ttmp, actmp, acst) = s
 
         # Nominal next state
-        al = 0.5
+        al_on = 0.8
+        al_of = 0.9
 
-        itmp = int(al * itmp + (1 - al) * ttmp)
-        ttmp += a
+        if acst:
+            itmp = al_on * itmp + (1 - al_on) * actmp
+        else:
+            itmp = al_of * itmp + (1 - al_of) * etmp
 
-        itmp = bound(itmp, minT, maxT)
-        ttmp = bound(ttmp, minT, maxT)
-        new_s = (itmp, etmp, ttmp)
+        actmp += a
+        actry = (a != 0)
 
+        itmp = r_stvar(bound(itmp, minT, maxT))
+        actmp = r_stvar(bound(actmp, minT, maxT))
+
+        if actry != acst:
+            mpr = (itmp, ttmp, actmp, acst)
+            ipr = (itmp, ttmp, actmp, actry)
+
+            pr = 0.1
+            return dist.DDist({mpr: 1 - pr, ipr: pr})
+
+        new_s = (itmp, ttmp, actmp, acst)
         return dist.delta_dist(new_s)
 
     def draw_state(self, s):
@@ -103,10 +128,13 @@ def test_learn_play(game=None, q=None, num_layers=2, num_units=100,
     if not game:
         game = TempSim()
 
+    global r_stvar
     if not q:
         if tabular:
+            r_stvar = round
             q = TabularQ(game.states, game.actions)
         else:
+            r_stvar = float
             q = NNQ(game.states, game.actions, game.state2vec, num_layers, num_units,
                     epochs=batch_epochs if batch else 1)
 
