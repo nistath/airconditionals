@@ -22,6 +22,13 @@ maxT *= u
 etmp *= u
 
 
+def emulate(game, q, episode_length, num_episodes=1):
+    for i in range(num_episodes):
+        reward, _ = sim_episode(game, episode_length,
+                                lambda s: greedy(q, s), interactive_fn=print)
+        print('Reward', reward)
+
+
 class TempSim(MDP):
     def __init__(self, start=(20*u, 25*u, 30*u, False)):
         self.q = None
@@ -71,12 +78,10 @@ class TempSim(MDP):
             # heating is not as expensive
             if etmp < itmp and actmp > itmp:
                 reward *= 1.1
-        elif reward > -4:
-            reward += 10
-        else:
+        elif abs(delta) < 1:
             reward /= 1.2
 
-        print(s, a, reward)
+        # print(s, a, reward)
         return reward
 
     def transition_model(self, s, a):
@@ -84,7 +89,7 @@ class TempSim(MDP):
         (itmp, ttmp, actmp, acst) = s
 
         # Nominal next state
-        al_on = 0.8
+        al_on = 0.5
         al_of = 0.9
 
         if acst:
@@ -102,7 +107,7 @@ class TempSim(MDP):
             mpr = (itmp, ttmp, actmp, acst)
             ipr = (itmp, ttmp, actmp, actry)
 
-            pr = 0.1
+            pr = 0.5
             return dist.DDist({mpr: 1 - pr, ipr: pr})
 
         new_s = (itmp, ttmp, actmp, acst)
@@ -115,7 +120,7 @@ class TempSim(MDP):
 def test_learn_play(game=None, q=None, num_layers=2, num_units=100,
                     eps=0.5, iters=10000, draw=False,
                     tabular=True, batch=False, batch_epochs=10,
-                    num_episodes=10, episode_length=100):
+                    num_episodes=2, episode_length=500):
     iters_per_value = 1 if iters <= 10 else int(iters / 10.0)
     scores = []
 
@@ -145,13 +150,10 @@ def test_learn_play(game=None, q=None, num_layers=2, num_units=100,
                                eps=eps, interactive_fn=interact)
         else:
             qf = Q_learn(game, q, iters=iters, eps=eps, interactive_fn=interact)
-
-        for i in range(num_episodes):
-            reward, _ = sim_episode(game, episode_length,
-                                    lambda s: greedy(qf, s), interactive_fn=print)
-            print('Reward', reward)
     except KeyboardInterrupt:
         pass
+
+    emulate(game, q, episode_length=episode_length)
 
     return game, q
 
