@@ -159,7 +159,7 @@ def Q_learn(mdp, q, lr=.1, iters=100, eps=0.5, interactive_fn=None):
 # of (s, a, r, s') whee s' is None for transition from terminal state.
 
 
-def sim_episode(mdp, episode_length, policy, draw=False):
+def sim_episode(mdp, episode_length, policy, interactive_fn=False):
     episode = []
     reward = 0
     s = mdp.init_state()
@@ -171,8 +171,8 @@ def sim_episode(mdp, episode_length, policy, draw=False):
             episode.append((s, a, r, None))
             return reward, episode
         episode.append((s, a, r, s_prime))
-        if draw:
-            mdp.draw_state(s)
+        if interactive_fn:
+            interactive_fn(s, a)
         s = s_prime
     return reward, episode
 

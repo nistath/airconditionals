@@ -20,7 +20,7 @@ minT, maxT = 10, 40
 class TempSim(MDP):
     def __init__(self, start=(20, 25, 30)):
         self.q = None
-        self.discount_factor = 0.9
+        self.discount_factor = 0.1
 
         # +1 so that range is inclusive
         self.states = [
@@ -53,11 +53,11 @@ class TempSim(MDP):
         (itmp, etmp, ttmp) = s
         return np.array([[itmp, etmp, ttmp, 0]])
 
-    def terminal(self, state):
-        return state == 'over'
+    def terminal(self, s):
+        return s == 'over'
 
     def reward_fn(self, s, a):
-        print(s, a)
+        # print(s, a)
         if s == 'over':
             return 0
 
@@ -83,8 +83,11 @@ class TempSim(MDP):
 
         return dist.delta_dist(new_s)
 
+    def draw_state(self, s):
+        print(s)
 
-def test_learn_play(d=6, num_layers=2, num_units=100,
+
+def test_learn_play(game=None, q=None, num_layers=2, num_units=100,
                     eps=0.5, iters=10000, draw=False,
                     tabular=True, batch=False, batch_epochs=10,
                     num_episodes=10, episode_length=100):
@@ -92,27 +95,37 @@ def test_learn_play(d=6, num_layers=2, num_units=100,
     scores = []
 
     def interact(q, iter=0):
-        return
         if iter % iters_per_value == 0:
             scores.append((iter, evaluate(game, num_episodes, episode_length,
                                           lambda s: greedy(q, s))[0]))
             print('score', scores[-1])
 
-    game = TempSim()
-    if tabular:
-        q = TabularQ(game.states, game.actions)
-    else:
-        q = NNQ(game.states, game.actions, game.state2vec, num_layers, num_units,
-                epochs=batch_epochs if batch else 1)
-    if batch:
-        qf = Q_learn_batch(game, q, iters=iters, episode_length=100, n_episodes=10,
-                           interactive_fn=interact)
-    else:
-        qf = Q_learn(game, q, iters=iters, interactive_fn=interact)
-    for i in range(num_episodes):
-        reward, _ = sim_episode(game, (episode_length if d > 5 else episode_length / 2),
-                                lambda s: greedy(qf, s), draw=draw)
-        print('Reward', reward)
+    if not game:
+        game = TempSim()
+
+    if not q:
+        if tabular:
+            q = TabularQ(game.states, game.actions)
+        else:
+            q = NNQ(game.states, game.actions, game.state2vec, num_layers, num_units,
+                    epochs=batch_epochs if batch else 1)
+
+
+    try:
+        if batch:
+            qf = Q_learn_batch(game, q, iters=iters, episode_length=100, n_episodes=10,
+                               eps=eps, interactive_fn=interact)
+        else:
+            qf = Q_learn(game, q, iters=iters, eps=eps, interactive_fn=interact)
+
+        for i in range(num_episodes):
+            reward, _ = sim_episode(game, episode_length,
+                                    lambda s: greedy(qf, s), interactive_fn=print)
+            print('Reward', reward)
+    except KeyboardInterrupt:
+        pass
+
+    return game, q
 
 
 def test_solve_play(d=6, draw=False,
@@ -136,3 +149,6 @@ def test_solve_play(d=6, draw=False,
 # test_learn_play(iters=100000, tabular=False, batch=False)
 # Fitted Q
 # test_learn_play(iters=10, tabular=False, batch=True)
+
+game = None
+q = None
