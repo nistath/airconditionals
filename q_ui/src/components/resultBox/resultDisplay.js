@@ -19,18 +19,17 @@ export default class ResultDisplay extends Component {
         let classNames = classnames("result_display", {
             "complete":this.props.isReal
         });
-        console.log(this.props.data);
         return (
-            <div className={classNames} id={this.props.id}>
+            <div className={classNames} id={this.props.id} style={{transition: "background-color " + this.props.transitionDuration + "ms ease-out"}}>
                 <CountUp className="counter"
                 start = {0}
                 end = {this.props.data.value}
-                duration = {1.75}
+                duration = {this.props.transitionDuration/1000}
                 useEasing = {true}
                 suffix = {this.props.data.unit}
                 onComplete = {this._setComplete}
                 />
-
+                <span className="title">{this.props.title}</span>
             </div>
         );
     }

@@ -84,8 +84,14 @@ overlay {
   height: 100%;
 }
 
+* {
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 body {
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: #0f0027;
 }
 
@@ -94,7 +100,7 @@ body {
     background-color: #353585;
   }
   50% {
-    background-color: red;
+    background-color: green;
   }
   100% {
     background-color: #353585;
@@ -156,26 +162,34 @@ nav {
 .panel_container__int .control_panel .row.content#row1 .row__int .Dropdown-root {
   width: 40%;
   float: left;
-  margin: 0 5%;
+  margin: 1% 5%;
 }
-.panel_container__int .control_panel .row.content#row1 .row__int .scenario_info {
-  width: 50%;
+.panel_container__int .control_panel .row.content#row1 .row__int .rangeslider {
+  width: 40%;
   float: right;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-right: 10%;
+  background-color: default;
 }
-.panel_container__int .control_panel .row.content#row1 .row__int .scenario_info p {
-  padding: 0;
+.panel_container__int .control_panel .row.content#row1 .row__int .rangeslider__fill {
+  background-color: #56d395;
+}
+.panel_container__int .control_panel .row.content#row1 .row__int span {
+  font-size: 1em;
+  font-family: monospace;
 }
 .panel_container__int .control_panel .row.content#row5 {
   font-size: 3em;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: blink 2.5s;
-  animation-iteration-count: infinite;
   cursor: pointer;
+  background-color: #56d395;
+}
+.panel_container__int .control_panel .row.content#row5:hover {
+  background-color: #5de7a2;
+}
+.panel_container__int .control_panel .row.content#row5:active {
+  background-color: #46b37c;
 }
 .panel_container__int .control_panel .row.content:first-child::before, .panel_container__int .control_panel .row.content:last-child::before {
   display: none;
@@ -249,6 +263,12 @@ nav {
 .panel_container__int .settings_panel .gauge_container svg text {
   fill: white !important;
 }
+.panel_container__int .settings_panel .gauge_container span.label {
+  position: absolute;
+  bottom: 5%;
+  font-family: monospace;
+  font-size: 1.3em;
+}
 .panel_container__int .settings_panel .gauge_container#ac, .panel_container__int .settings_panel .gauge_container#hum {
   display: flex;
   justify-content: center;
@@ -263,13 +283,23 @@ nav {
 .panel_container__int .settings_panel .gauge_container#light svg {
   float: left;
 }
+.panel_container__int .settings_panel .gauge_container#light span.label {
+  left: 15%;
+}
 .panel_container__int .settings_panel .gauge_container#light .blinds {
+  font-family: monospace;
   right: 10%;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   font-size: 2em;
   width: max-content;
+  background-color: #3f3f92;
+  padding: 2%;
+  margin-left: 2%;
+}
+.panel_container__int .settings_panel .gauge_container#light .blinds span {
+  font-size: 1.5em;
 }
 
 .result_container {
@@ -289,17 +319,23 @@ nav {
   align-items: center;
 }
 .result_container .result_box .result_display {
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  margin: 30% 5%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin: 30% 4%;
   width: 10%;
   height: 40%;
   float: left;
   color: white;
-  background-color: #720c0c;
-  transition: background-color 1750ms ease-out;
+  position: relative;
+  background-color: #9e0000;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.result_container .result_box .result_display .title {
+  display: block;
+  position: absolute;
+  bottom: -50%;
+  font-family: monospace;
 }
 .result_container .result_box .result_display.complete {
   color: white;
@@ -307,6 +343,16 @@ nav {
 }
 .result_container .result_box .result_display .counter {
   font-size: 1.5em;
+}
+.result_container .result_box #logo {
+  width: 10%;
+  height: 40%;
+  background-image: url("../assets/ac_green.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-left: 14%;
+  margin-right: 10%;
 }
 
 /*# sourceMappingURL=index.css.map */
