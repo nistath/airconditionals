@@ -7,6 +7,7 @@ from keras.models import Sequential
 from keras.layers.core import Dense
 from keras.optimizers import Adam
 
+
 class MDP:
     # Needs the following attributes:
     # states: list or set of states
@@ -19,7 +20,7 @@ class MDP:
     # reward_fn: function from (state, action) to real-valued reward
 
     def __init__(self, states, actions, transition_model, reward_fn,
-                     discount_factor = 1.0, start_dist = None):
+                 discount_factor=1.0, start_dist=None):
         self.states = states
         self.actions = actions
         self.transition_model = transition_model
@@ -44,7 +45,7 @@ class MDP:
     def sim_transition(self, s, a):
         return (self.reward_fn(s, a),
                 self.init_state() if self.terminal(s) else
-                    self.transition_model(s, a).draw())
+                self.transition_model(s, a).draw())
 
 # Perform value iteration on an MDP, also given an instance of a q
 # function.  Terminate when the max-norm distance between two
@@ -57,7 +58,8 @@ class MDP:
 # dictionary mapping (s, a) pairs into Q values This must be
 # initialized before interactive_fn is called the first time.
 
-def value_iteration(mdp, q, eps = 0.01, max_iters=1000):
+
+def value_iteration(mdp, q, eps=0.01, max_iters=1000):
     curr = q.copy()
     s = mdp.init_state()
     states = mdp.states
@@ -93,38 +95,49 @@ def value_iteration(mdp, q, eps = 0.01, max_iters=1000):
 
 # Given a state, return the value of that state, with respect to the
 # current definition of the q function
+
+
 def value(q, s):
     return max(q.get(s, a) for a in q.actions)
 
 # Given a state, return the action that is greedy with reespect to the
 # current definition of the q function
+
+
 def greedy(q, s):
     return argmax(q.actions, lambda a: q.get(s, a))
 
-def epsilon_greedy(q, s, eps = 0.5):
+
+def epsilon_greedy(q, s, eps=0.5):
     if random.random() < eps:  # True with prob eps, random action
         return uniform_dist(q.actions).draw()
     else:
         return greedy(q, s)
+
 
 class TabularQ:
     def __init__(self, states, actions):
         self.actions = actions
         self.states = states
         self.q = dict([((s, a), 0.0) for s in states for a in actions])
+
     def copy(self):
         q_copy = TabularQ(self.states, self.actions)
         q_copy.q.update(self.q)
         return q_copy
+
     def set(self, s, a, v):
-        self.q[(s,a)] = v
+        self.q[(s, a)] = v
+
     def get(self, s, a):
-        return self.q[(s,a)]
+        return self.q[(s, a)]
+
     def update(self, data, lr):
         for datum in data:
             s, a, t = datum
 
-            self.q[(s,a)] = (1 - lr) * self.q[(s,a)] + lr * t
+            self.q[(s, a)] = (1 - lr) * self.q[(s, a)] + lr * t
+
 
 def Q_learn(mdp, q, lr=.1, iters=100, eps=0.5, interactive_fn=None):
     s = mdp.init_state()
@@ -144,7 +157,9 @@ def Q_learn(mdp, q, lr=.1, iters=100, eps=0.5, interactive_fn=None):
 # episode_length, using policy function to select actions.  If we find
 # a terminal state, end the episode.  Return accumulated reward a list
 # of (s, a, r, s') whee s' is None for transition from terminal state.
-def sim_episode(mdp, episode_length, policy, draw=False):
+
+
+def sim_episode(mdp, episode_length, policy, interactive_fn=False):
     episode = []
     reward = 0
     s = mdp.init_state()
@@ -156,12 +171,15 @@ def sim_episode(mdp, episode_length, policy, draw=False):
             episode.append((s, a, r, None))
             return reward, episode
         episode.append((s, a, r, s_prime))
-        if draw: mdp.draw_state(s)
+        if interactive_fn:
+            interactive_fn(s, a)
         s = s_prime
     return reward, episode
 
 # Return average reward for n_episodes of length episode_length
 # while following policy (a function of state) to choose actions.
+
+
 def evaluate(mdp, n_episodes, episode_length, policy):
     score = 0
     length = 0
@@ -171,7 +189,7 @@ def evaluate(mdp, n_episodes, episode_length, policy):
         score += r
         length += len(e)
         # print('    ', r, len(e))
-    return score/n_episodes, length/n_episodes
+    return score / n_episodes, length / n_episodes
 
 
 def Q_learn_batch(mdp, q, lr=.1, iters=100, eps=0.5, episode_length=10, n_episodes=2, interactive_fn=None):
@@ -183,22 +201,26 @@ def Q_learn_batch(mdp, q, lr=.1, iters=100, eps=0.5, episode_length=10, n_episod
             interactive_fn(q, i)
 
         for j in range(n_episodes):
-            _, ep = sim_episode(mdp, episode_length, lambda x: epsilon_greedy(q, x, eps))
+            _, ep = sim_episode(mdp, episode_length,
+                                lambda x: epsilon_greedy(q, x, eps))
             e.extend(ep)
 
-        gen = [(s, a, r + (g * value(q, ns) if ns != None else 0)) for s, a, r, ns in e]
+        gen = [(s, a, r + (g * value(q, ns) if ns != None else 0))
+               for s, a, r, ns in e]
         q.update(gen, lr)
 
     return q
 
+
 def make_nn(state_dim, num_hidden_layers, num_units):
     model = Sequential()
-    model.add(Dense(num_units, input_dim = state_dim, activation='relu'))
-    for i in range(num_hidden_layers-1):
+    model.add(Dense(num_units, input_dim=state_dim, activation='relu'))
+    for i in range(num_hidden_layers - 1):
         model.add(Dense(num_units, activation='relu'))
     model.add(Dense(1, activation='linear'))
     model.compile(loss='mse', optimizer=Adam())
     return model
+
 
 class NNQ:
     def __init__(self, states, actions, state2vec, num_layers, num_units, epochs=1):
@@ -206,25 +228,18 @@ class NNQ:
         self.states = states
         self.epochs = epochs
         self.state2vec = state2vec
-        self.models = {a: make_nn(len(states), num_layers, num_units) for a in actions}
+        state_dim = state2vec(states[0]).shape[1]  # a row vector
+        self.models = {a: make_nn(state_dim, num_layers, num_units) for
+                       a in actions}
 
     def get(self, s, a):
         return self.models[a].predict(self.state2vec(s))
 
-    def update(self, data, lr, epochs=1):
-        svc = {}
-
-        for s, a, t in data:
-            if a in svc:
-                svc[a][0].append(s)
-                svc[a][1].append(t)
-            else:
-                svc[a] = ([s], [t])
-
-        for a in svc:
-            if svc[a][0]:
-                S, T = svc[a]
-                D = np.vstack(self.state2vec(s) for s in S)
-                T = np.array([T]).T
-
-                self.models[a].fit(D, T, epochs=epochs)
+    def update(self, data, lr):
+        for a in self.actions:
+            if [s for (s, at, t) in data if a == at]:
+                X = np.vstack([self.state2vec(s)
+                               for (s, at, t) in data if a == at])
+                Y = np.vstack([np.array([float(t)])
+                               for (s, at, t) in data if a == at])
+                self.models[a].fit(X, Y, epochs=self.epochs, verbose=False)
