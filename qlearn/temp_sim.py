@@ -12,9 +12,11 @@ def bound(val, btm, top):
     return min(top, max(btm, val))
 
 
+# All temperatures in celcius
 minT, maxT = 19, 31
 etmp = 36
 
+# Scale all temperature values by u to enlarge discrete state space if needed
 u = 1
 
 minT *= u
@@ -48,6 +50,7 @@ class TempSim(MDP):
             +1,
             0,
             -1,
+            np.nextafter(0, 1),  # keep AC on (!= 0) but do not move target
         ]
 
         self.start = dist.delta_dist(start)
@@ -73,11 +76,11 @@ class TempSim(MDP):
         if acst:
             # cooling is expensive
             if etmp > itmp and actmp < itmp:
-                reward *= 1.3
+                reward *= 1.1
 
             # heating is not as expensive
             if etmp < itmp and actmp > itmp:
-                reward *= 1.1
+                reward *= 1.02
         elif abs(delta) < 1:
             reward /= 1.2
 
