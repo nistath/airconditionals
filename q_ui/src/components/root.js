@@ -14,9 +14,7 @@ let state= {
             external : {
                 temperature: 30,
                 humidity:30,
-                light:50,
-                forecast : {
-                }
+                light:50
             },
             internal : {
                 temperature: 29,
@@ -32,10 +30,7 @@ let state= {
             external : {
                 temperature: 20,
                 humidity:60,
-                light:30,
-                forecast :{
-    
-                }
+                light:30
             },
             internal : {
                 temperature: 26,
@@ -46,54 +41,54 @@ let state= {
         },
     ],
 
-    resultData : {
-        isReal: true,
+    result: {
+        resultData : {
+            isReal: true,
+            naive : {
+                value: 1230,
+                unit: "W"
+            },
+            optimized : {
+                value: 564,
+                unit : "W"
+            },
+        
+            savings : {
+                value:1434,
+                unit: "€"
+            }
+        },
+
+        settings : {
+            ac:-50,
+            humidity:20,
+            light:60
+        }
+    }
+}
+
+let inactiveResults = {
+    settings : {
+        ac: 0,
+        humidity: 0,
+        light: 0
+    },
+    resultData: {
+        isReal: false,
         naive : {
-            value: 1230,
+            value: 0,
             unit: "W"
         },
         optimized : {
-            value: 564,
+            value: 0,
             unit : "W"
         },
     
         savings : {
-            value:1434,
+            value:0,
             unit: "€"
         }
-    },
-
-    settings : {
-        ac:-50,
-        humidity:20,
-        light:60,
-        blinds_open:true
     }
-}
-
-
-let inactiveResultData = {
-    isReal: false,
-    naive : {
-        value: 0,
-        unit: "W"
-    },
-    optimized : {
-        value: 0,
-        unit : "W"
-    },
-
-    savings : {
-        value:0,
-        unit: "€"
-    }
-}
-
-let inactiveSettings = {
-    ac: 0,
-    humidity: 0,
-    light: 0,
-    blinds_open: false
 }
 
 let transitionDuration = 500;
@@ -103,28 +98,39 @@ export default class Root extends Component {
         super(props);
         this.state = {
             currentScenario: 0,
-            active : false
+            active : false,
+            scenarios: [],
+            results : inactiveResults
         }
-        this._getResultData = this._getResultData.bind(this);
-        this._getSettings = this._getSettings.bind(this);
+        this._getScenarios = this._getScenarios.bind(this);
+        this._getResults = this._getResults.bind(this);
         this._onSelect = this._onSelect.bind(this);
         this._trigger = this._trigger.bind(this);
     }
 
-    _getResultData() {
-        if (this.state.active) {
-            return state.resultData;
-        }
-
-        return inactiveResultData;
+    _getScenarios() {
+        // fetch("localhost:3003/api/scenario/get", {
+        //     method: "GET"
+        // }).then((resp) =>resp.json())
+        // .then(function(data){
+        //     this.setState({
+        //         scenarios:data
+        //     });
+        // }.bind(this));
+        this.setState({
+            scenarios:state.scenarios
+        })
     }
 
-    _getSettings() {
-        if (this.state.active) {
-            return state.settings
-        }
-
-        return inactiveSettings;
+    _getResults() {
+        fetch("localhost:3003/api/scenario/" + this.state.currentScenario, {
+            method: "GET"
+        }).then((resp) =>resp.json())
+        .then(function(data){
+            this.setState({
+                results:data
+            });
+        }.bind(this));
     }
 
     _onSelect(scenario) {
@@ -139,17 +145,21 @@ export default class Root extends Component {
         })
     }
 
+    componentWillMount() {
+        this._getScenarios();
+    }
+
     render() {
         return (
             <main>
                 <div className="panel_container">
                     <div className="panel_container__int">
-                        <ControlPanel onSelect={this._onSelect} scenarios={state.scenarios} currentScenario={this.state.currentScenario} onClick={this._trigger}/>
-                        <SettingsPanel settings={this._getSettings()} transitionDuration={transitionDuration}/>
+                        <ControlPanel onSelect={this._onSelect} scenarios={this.state.scenarios} currentScenario={this.state.currentScenario} onClick={this._trigger}/>
+                        <SettingsPanel settings={this.state.results.settings} transitionDuration={transitionDuration}/>
                     </div>
                 </div>
                 <div className="result_container">
-                    <ResultBox active={false} data={this._getResultData()} onClick={this._trigger} transitionDuration={transitionDuration}/>
+                    <ResultBox active={false} data={this.state.results.resultData} onClick={this._trigger} transitionDuration={transitionDuration}/>
                 </div>
             </main>
         )

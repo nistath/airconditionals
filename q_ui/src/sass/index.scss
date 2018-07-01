@@ -42,8 +42,9 @@ nav {
 }
 
 .panel_container {
+    margin-top:5%;
     width:100%;
-    height:80%;
+    height:70%;
     @include centerchild;
     &__int {
         width:calc(100% - 10vmin);
@@ -96,6 +97,7 @@ nav {
                                 }
                             }
                             span {
+                                margin-left:55%;
                                 font-size:1em;
                                 font-family:monospace;
                             }
@@ -163,6 +165,7 @@ nav {
                             }
                             &.title {
                                 height:20%;
+                                font-size:0.9em;
                             }
                             float:right;
                         }
@@ -186,7 +189,7 @@ nav {
             background-color:$panelColor;
             color:white;
             .gauge_container{
-                height:33.33%;
+                height:32%;
                 position:relative;
                 svg {
                     text{
@@ -195,38 +198,11 @@ nav {
                 }
                 span.label {
                     position:absolute;
-                    bottom:5%;
+                    bottom:-5%;
                     font-family: monospace;
                     font-size:1.3em;
                 }
-                &#ac, &#hum {
                     @include centerchild;
-                }
-                &#light {
-                    svg {
-                        float:left;
-                    }
-                    span.label {
-                        left:15%;
-                    }
-                    @include centerchild-v;
-                    margin-left:5%;
-                    .blinds {
-                        font-family:monospace;
-                        right:10%;
-                        @include centerabs-v;
-                        font-size:2em;
-                        width:max-content;
-                        background-color:$rowColor;
-                        padding:2%;
-                        margin-left:2%;
-                        span {
-                            
-
-                            font-size:1.5em;
-                        }
-                    }
-                }
             }
         }
     }
@@ -246,7 +222,7 @@ nav {
         @include centerchild;
         .result_display {
             font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            margin:30% 4%;
+            margin:0 5%;
             width:10%;
             height:40%;
             float:left;
@@ -254,9 +230,11 @@ nav {
             position:relative;
             background-color:rgb(158, 0, 0);
             .title {
+                width:200%;
+                text-align:center;
                 display:block;
                 position:absolute;
-                bottom: -50%;
+                bottom: -60%;
                 font-family:monospace;
             }
             &.complete {
@@ -269,14 +247,14 @@ nav {
             }
         }
         #logo {
-            width:10%;
-            height:40%;
+            width:30%;
+            height:20%;
             background-image: url("../assets/ac_green.svg");
             background-repeat: no-repeat;
             background-position:center;
             background-size:contain;
-            margin-left:14%;
-            margin-right:10%;
+            margin-right:0%;
+            margin-left:5%;
         }
     }
 }
