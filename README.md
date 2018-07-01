@@ -35,6 +35,22 @@
 * Data collection through APIs and building blueprints (sensors)
 * Retrains and adapts to user feedback
 
+### Training the model in simulation
+In a terminal open an interactive Python 3 session using `python3 -i qlearn/temp_sim.py`.
+You can try both tabular Q-learning as well as Neural Network Q-learning using the function `test_learn_play`.
+
+Example execution:
+```
+>>> game, q = test_learn_play(game, q, iters=, tabular=False, batch=True, draw=True)
+score (0, -6430.881696982324)
+score (1, -4491.224128)
+score (2, -11491.492962160373)
+score (3, -4587.20131567952)
+score (4, -17715.9681191172)
+score (5, -10313.14142221469)
+score (6, -86.67616666666669)
+```
+
 ### Running the backend server and Dashboard
 In one terminal run `cd backend && node index.js`.
 In another start the dashboards using `cd q_ui && node index.js`.
