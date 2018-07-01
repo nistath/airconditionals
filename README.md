@@ -17,6 +17,10 @@
 #### Backend
 * [Express.js](https://expressjs.com/)
 * [Sequelize](http://docs.sequelizejs.com/)
+#### IoT Sensor
+* [Arduino IDE](https://www.arduino.cc/en/Main/Software?)
+* [DHT adafruit library](https://github.com/adafruit/DHT-sensor-library)
+* [adafruit unified sensor library](https://github.com/adafruit/Adafruit_Sensor)
 #### ML model
 * [Tensorflow](https://www.tensorflow.org/)
 * [Keras](https://keras.io/)
@@ -30,3 +34,14 @@
 * Minimizing energy consumption
 * Data collection through APIs and building blueprints (sensors)
 * Retrains and adapts to user feedback
+
+### Running the backend server and Dashboard
+In one terminal run `cd backend && node index.js`.
+In another start the dashboards using `cd q_ui && node index.js`.
+
+They should both be running in localhost and you can visit the dashboard from your browser in the URL given to you by node.
+
+### Adding the custom ESP32 IoT Sensor
+Download Arduino IDE and adafruit sensor libraries.
+Open `endopoint.ino` in the Arduino IDE
+Hit `Upload` after connecting ESP32
