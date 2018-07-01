@@ -42,6 +42,4 @@ In another start the dashboards using `cd q_ui && node index.js`.
 They should both be running in localhost and you can visit the dashboard from your browser in the URL given to you by node.
 
 ### Adding the custom ESP32 IoT Sensor
-Download Arduino IDE and adafruit sensor libraries.
-Open `endopoint.ino` in the Arduino IDE
-Hit `Upload` after connecting ESP32
+Download Arduino IDE and adafruit sensor libraries. Open `endopoint.ino` in the Arduino IDE and hit `Upload` after connecting ESP32.
