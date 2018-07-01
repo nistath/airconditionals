@@ -26,7 +26,7 @@
 * [Matplotlib](https://matplotlib.org/)
 ### Functionality
 * Thermal simulation
-* Controlling B.M.S.
+* Interacting with the B.M.S.
 * Minimizing energy consumption
 * Data collection through APIs and building blueprints (sensors)
 * Retrains and adapts to user feedback
