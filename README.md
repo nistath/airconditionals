@@ -7,6 +7,8 @@
 * Απευθύνεται σε ιδιώτες και επιχειρήσεις, καθώς και σε δημόσιους φορείς
 * Εφαρμογή του συστήματος σε δημόσια κτήρια
 * Χρήση προσομοιώσεων για την εκμάθηση και προσαρμογή σε κάθε κτήριο
+![](https://cdn.discordapp.com/attachments/258624616430305280/462883103283871744/localhost_3000__2.png)
+![](https://cdn.discordapp.com/attachments/258624616430305280/462883104432848897/localhost_3000_.png)
 ## Getting Started
 ### Prerequisites
 #### Frontend
@@ -18,6 +20,7 @@
 #### ML model
 * [Tensorflow](https://www.tensorflow.org/)
 * [Keras](https://keras.io/)
+* [Arduino](https://www.arduino.cc/)
 #### Simulation 
 * [Numpy](http://www.numpy.org/)
 * [Matplotlib](https://matplotlib.org/)
